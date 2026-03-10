@@ -1,10 +1,16 @@
-﻿using ProjetoPW.Models;
+﻿using MySql.Data.MySqlClient;
+using ProjetoPW.Models;
 
 namespace ProjetoPW.Repository.Contract
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly string _ConexaoMySQL; 
+        private readonly string _ConexaoMySQL;
+        public UsuarioRepository(IConfiguration conf)
+        {
+            _ConexaoMySQL = conf.GetConnectionString("ConexaoMySQL");
+        }
+
         public void Atualizar(Usuario usuario)
         {
             throw new NotImplementedException();
@@ -12,7 +18,19 @@ namespace ProjetoPW.Repository.Contract
 
         public void Cadastrar(Usuario usuario)
         {
-            throw new NotImplementedException();
+            using (var conexao = new MySqlConnection(_ConexaoMySQL))
+            {
+                conexao.Open();
+
+                MySqlCommand cmd = new MySqlCommand("insert into usuario(nomeUsu, Cargo, DataNasc)" +
+                                                        "values (@nomeUsu, @Cargo, @DataNasc)", conexao);
+                cmd.Parameters.Add("@nomeUsu", MySqlDbType.VarChar).Value = usuario.nomeUsu;
+                cmd.Parameters.Add("@Cargo", MySqlDbType.VarChar).Value = usuario.Cargo;
+                cmd.Parameters.Add("@DataNasc", MySqlDbType.VarChar).Value = usuario.DataNasc;
+
+                cmd.ExecuteNonQuery();
+                conexao.Close();
+            }
         }
 
         public void Excluir(int Id)
