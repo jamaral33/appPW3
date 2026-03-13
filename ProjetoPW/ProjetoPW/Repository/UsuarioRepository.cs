@@ -26,21 +26,22 @@ namespace ProjetoPW.Repository.Contract
                                                         "values (@nomeUsu, @Cargo, @DataNasc)", conexao);
                 cmd.Parameters.Add("@nomeUsu", MySqlDbType.VarChar).Value = usuario.nomeUsu;
                 cmd.Parameters.Add("@Cargo", MySqlDbType.VarChar).Value = usuario.Cargo;
-                cmd.Parameters.Add("@DataNasc", MySqlDbType.VarChar).Value = usuario.DataNasc;
+                cmd.Parameters.Add("@DataNasc", MySqlDbType.Date).Value = usuario.DataNasc;
 
                 cmd.ExecuteNonQuery();
                 conexao.Close();
             }
         }
-
+            
         public void Excluir(int Id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Usuario> ObterTodosUsuarios()
+        public IEnumerable<Usuario> ObterTodosUsuarios() //pagina 27 do pdf nilsin
         {
-            throw new NotImplementedException();
+            List<Usuario> UsuarioList = new List<Usuario>();
+            using (var conexao = new MySqlCommand("Select * from usuario");
         }
 
         public Usuario ObterUsuario(int Id)
@@ -48,4 +49,6 @@ namespace ProjetoPW.Repository.Contract
             throw new NotImplementedException();
         }
     }
+
 }
+

@@ -17,8 +17,8 @@ namespace ProjetoPW.Models
 
         [Display(Name = "Nascimento")]
         [Required(ErrorMessage = "O campo nascimento é obrigatório")]
-        [DataType(DataType.DateTime)]
-        public DateTime DataNasc { get; set; }
+        [DataType(DataType.Date)]
+        public DateOnly DataNasc { get; set; }
     }
 
     }
